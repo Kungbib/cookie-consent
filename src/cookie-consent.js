@@ -3,25 +3,30 @@ import './cookie-consent.css';
 import * as CookieConsent from 'vanilla-cookieconsent';
 import { cookieConsentConfig } from './config/config';
 
-function deepMerge(obj1, obj2) {
-  for (let key in obj2) {
-    if (obj2.hasOwnProperty(key)) {
-      if (obj2[key] instanceof Object && obj1[key] instanceof Object) {
-        obj1[key] = deepMerge(obj1[key], obj2[key]);
-      } else {
-        obj1[key] = obj2[key];
+function deepMerge(...objects) {
+  // Create a new object to hold the merged result
+  const result = {};
+
+  for (const obj of objects) {
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        if (obj[key] instanceof Object && result[key] instanceof Object) {
+          // If both values are objects, merge them recursively
+          result[key] = deepMerge(result[key], obj[key]);
+        } else {
+          // Otherwise, assign the value from the current object
+          result[key] = obj[key];
+        }
       }
     }
   }
-  return obj1;
+
+  return result;
 }
 
 const runWrapper = function(func) {
   return function(customConfig) {
-    console.log(cookieConsentConfig);
-    console.log(customConfig);
-    deepMerge(cookieConsentConfig, customConfig);
-    return func(cookieConsentConfig);
+    return func(deepMerge(cookieConsentConfig, customConfig));
   }
 }
 
