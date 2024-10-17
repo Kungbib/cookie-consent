@@ -1,7 +1,7 @@
-import * as translationsSv from './translations/sv.json';
+import sv from './translations/sv';
 
 const translationsConfig = {
-  sv: translationsSv
+  sv
 };
 
 export const cookieConsentConfig = {

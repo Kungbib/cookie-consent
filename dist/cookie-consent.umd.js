@@ -1,5 +1,8 @@
-var KBCC = (function () {
-  'use strict';
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.KbCookieConsent = factory());
+})(this, (function () { 'use strict';
 
   function styleInject(css, ref) {
     if ( ref === void 0 ) ref = {};
@@ -65,55 +68,53 @@ var KBCC = (function () {
     validCookie: Fe
   });
 
-  var consentModal = {
-  	title: "Vi använder kakor",
-  	description: "Tjänsten Svenska tidningar använder olika typer av kakor (cookies). De finns för att förbättra användarupplevelsen och för att tjänstens funktioner ska fungera som de ska. Välj dina inställningar för vilka kakor du ger ditt samtycke till. Du kan alltid ändra dina val senare genom att klicka på “Hantera cookies” längst ner på sidan.",
-  	acceptAllBtn: "Tillåt alla kakor",
-  	acceptNecessaryBtn: "Tillåt bara nödvändiga kakor",
-  	showPreferencesBtn: "Inställningar",
-  	footer: "<a href=\"#\">Läs mer i vår cookie policy</a>"
-  };
-  var preferencesModal = {
-  	title: "Inställningar för kakor",
-  	acceptAllBtn: "Tillåt alla kakor",
-  	acceptNecessaryBtn: "Tillåt bara nödvändiga kakor",
-  	savePreferencesBtn: "Spara och godkänn",
-  	closeIconLabel: "Stäng",
-  	sections: [
-  		{
-  			title: "Om användning av kakor",
-  			description: "Tjänsten Svenska tidningar använder kakor (cookies).  En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
-  		},
-  		{
-  			title: "Nödvändiga kakor",
-  			description: "Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.",
-  			linkedCategory: "necessary"
-  		},
-  		{
-  			title: "Analytiska kakor",
-  			description: "Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.",
-  			linkedCategory: "analytics"
-  		},
-  		{
-  			title: "Mer information",
-  			description: "Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten."
-  		}
-  	]
-  };
-  var sv = {
-  	consentModal: consentModal,
-  	preferencesModal: preferencesModal
-  };
+  const sv = {
+      "consentModal": {
+        "title": "Vi använder kakor",
+        "description":
+          "Tjänsten Svenska tidningar använder olika typer av kakor (cookies). De finns för att förbättra användarupplevelsen och för att tjänstens funktioner ska fungera som de ska. Välj dina inställningar för vilka kakor du ger ditt samtycke till. Du kan alltid ändra dina val senare genom att klicka på “Hantera cookies” längst ner på sidan.",
+        "acceptAllBtn": "Tillåt alla kakor",
+        "acceptNecessaryBtn": "Tillåt bara nödvändiga kakor",
+        "showPreferencesBtn": "Inställningar",
+        "footer": "<a href=\"#\">Läs mer i vår cookie policy</a>"
+      },
+      "preferencesModal": {
+        "title": "Inställningar för kakor",
+        "acceptAllBtn": "Tillåt alla kakor",
+        "acceptNecessaryBtn": "Tillåt bara nödvändiga kakor",
+        "savePreferencesBtn": "Spara och godkänn",
+        "closeIconLabel": "Stäng",
+        "sections": [
+          {
+            "title": "Om användning av kakor",
+            "description":
+              "Tjänsten Svenska tidningar använder kakor (cookies).  En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
+          },
+          {
+            "title": "Nödvändiga kakor",
+            "description":
+              "Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.",
+            "linkedCategory": "necessary"
+          },
+          {
+            "title": "Analytiska kakor",
+            "description":
+              "Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.",
+            "linkedCategory": "analytics"
+          },
+          {
+            "title": "Mer information",
+            "description":
+              "Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten."
+          }
+        ]
+      }
+    };
 
-  var translationsSv = /*#__PURE__*/Object.freeze({
-    __proto__: null,
-    consentModal: consentModal,
-    default: sv,
-    preferencesModal: preferencesModal
-  });
+  // import * as translationsSv from './translations/sv.json';
 
   const translationsConfig = {
-    sv: translationsSv
+    sv
   };
 
   const cookieConsentConfig = {
@@ -161,25 +162,30 @@ var KBCC = (function () {
     }
   };
 
-  function deepMerge(obj1, obj2) {
-    for (let key in obj2) {
-      if (obj2.hasOwnProperty(key)) {
-        if (obj2[key] instanceof Object && obj1[key] instanceof Object) {
-          obj1[key] = deepMerge(obj1[key], obj2[key]);
-        } else {
-          obj1[key] = obj2[key];
+  function deepMerge(...objects) {
+    // Create a new object to hold the merged result
+    const result = {};
+
+    for (const obj of objects) {
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          if (obj[key] instanceof Object && result[key] instanceof Object) {
+            // If both values are objects, merge them recursively
+            result[key] = deepMerge(result[key], obj[key]);
+          } else {
+            // Otherwise, assign the value from the current object
+            result[key] = obj[key];
+          }
         }
       }
     }
-    return obj1;
+
+    return result;
   }
 
   const runWrapper = function(func) {
     return function(customConfig) {
-      console.log(cookieConsentConfig);
-      console.log(customConfig);
-      deepMerge(cookieConsentConfig, customConfig);
-      return func(cookieConsentConfig);
+      return func(deepMerge(cookieConsentConfig, customConfig));
     }
   };
 
@@ -190,4 +196,4 @@ var KBCC = (function () {
 
   return KbCookieConsent;
 
-})();
+}));

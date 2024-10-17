@@ -2,15 +2,19 @@
   "name": "cookie-consent",
   "version": "0.1.0",
   "description": "",
-  "main": "dist/cookieconsent.js",
+  "main": "dist/cookie-consent.umd.js",
+  "module": "dist/cookie-consent.esm.js",
   "scripts": {
     "build": "rollup --config",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "files": [
+    "dist",
+    "types"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "rollup": "^4.18.0",
     "rollup-plugin-postcss": "^4.0.2",
