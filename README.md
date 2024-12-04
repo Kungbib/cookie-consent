@@ -41,7 +41,7 @@ eller
 
 #### Importera i din applikation
 
-```
+```js
 import KbCookieConsent from '@kungbib/cookie-consent';
 // aktivera CookieConsent
 KbCookieConsent.run();
@@ -78,7 +78,7 @@ För fullständig dokumentation se: [CookieConsent configuration reference](http
 
 Nedan ser du standardkonfigurationen som skickas med när du exekverar funktionen `KbCookieConsent.run()`:
 
-```
+```js
 export const cookieConsentConfig = {
   guiOptions: {
     consentModal: {
