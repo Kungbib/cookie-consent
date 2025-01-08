@@ -49,9 +49,7 @@ import KbCookieConsent from '@kungbib/cookie-consent';
 // aktivera CookieConsent
 KbCookieConsent.run();
 ```
-Detta räcker för att en CookieConsent-dialog ska dyka upp i din applikation, men förmodligen kommer du att behöva skicka med viss konfiguration, tex. specificera just de kakor som din applikation sätter, samt genomföra förändringar i script som sätter kakor.
-
-Funktionen `KbCookieConsent.run()` tar emot ett objekt med konfiguration, se avsnittet [Konfiguration](#konfiguration) för instruktioner.
+Detta räcker för att en CookieConsent-dialog ska dyka upp i din applikation, men  du kommer att behöva skicka med viss konfiguration, tex. specificera just de kakor som din applikation sätter, samt genomföra förändringar i script som sätter kakor.
 
 Nedan följer exempel på implementationer i ramverk vi använder:
 
@@ -59,7 +57,7 @@ Nedan följer exempel på implementationer i ramverk vi använder:
 
 Kommer snart
 
-##### Svelte / SvelteKit
+##### SvelteKit
 
 Kommer snart
 
@@ -70,9 +68,12 @@ Kommer snart
 
 ## Steg 2: Specificera kakor som din tjänst sätter 
 
+Funktionen `KbCookieConsent.run()` tar emot ett objekt med konfiguration.
+
 ## Steg 3: Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
 
 kommer snart
+
 
 ## Steg 4: Ytterligare konfiguration
 
