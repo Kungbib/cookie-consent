@@ -20,7 +20,7 @@ Om du ska implementera CookieConsent, behöver du veta vilka kakor som din tjän
 
 En lista med tjänster och kakor finns att hitta i Confluence, dubbekolla gärna att informationen stämmer för din tjänst.
 
-## Användning
+## Steg 1: Lägg till CookieConsent i din tjänst
 
 Implementationen sker på två olika sätt:
 
@@ -68,7 +68,13 @@ Kommer snart
 
 Kommer snart
 
-## Konfiguration
+## Steg 2: Specificera kakor som din tjänst sätter 
+
+## Steg 3: Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
+
+kommer snart
+
+## Steg 4: Ytterligare konfiguration
 
 Konfigurationen av KB CookieConsent fungerar på samma sätt som för CookieConsent v3, i detta avsnitt fokuserar vi på de mest relevanta bitarna.
 
@@ -82,7 +88,7 @@ Däremot, beroende på hur just din tjänst fungerar, kan du behöva skriva öve
 Nedan ser du standardkonfigurationen som skickas med när du exekverar funktionen `KbCookieConsent.run()`:
 
 ```js
-export const cookieConsentConfig = {
+{
   guiOptions: {
     consentModal: {
       layout: 'bar',
@@ -125,14 +131,8 @@ export const cookieConsentConfig = {
     default: 'sv',
     translations: translationsConfig
   }
-};
+}
 ```
-
-### Specificera cookies som din tjänst sätter 
-
-Kakor som sätts av Matomo (fd. Piwik), som börjar med `_pk` behöver inte specificeras, dessa hanteras automatiskt av KB CookieConsent. Däremot behöver man förhindra att Matomo sätter en kaka innan användaren har bestämt sig för att tillåta kakor.
-
-### Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
 
 ## Vanligt förekommande fall och lösningar
 
