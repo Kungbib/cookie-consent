@@ -6,17 +6,15 @@ Det innebär att man använder det på samma sätt som ovan nämda CookieConsent
 
 Med denna wrapper är det enklare att implementera CookieConsent med en grundplåt av inställningar anpassade för KB, samtidigt som man fortfarande har möjligheten att detaljanpassa enskilda implementationer.
 
-## Behöver min tjänst en CookieConsent-dialog?
+## Bra att veta innan påbörjad implementation
 
-Ja:
-- Tjänster som riktar sig till externa användare och sparar information i form av kakor eller local storage, som inte än nödvändiga för att tjänsten ska fungera
+Innan du påbörjar att implementera CookieConsent-dialogen, behöver du veta följande: 
 
-Nej:
-- Interna applikationer
-- Tjänster som inte sätter några kakor överhuvudtaget
-- Tjänster som använder sig av cookies som krävs för att tjänsten ska fungera (tjänsten måste dock innehålla information om att nödvändiga cookies används)
+- vilka kakor sätts av din tjänst, vad de heter och vad de har för syfte
+- vilka kakor är nödvändiga
+- vilka script sätter de frivilliga kakorna
 
-Om du ska implementera CookieConsent, behöver du veta vilka kakor som din tjänst sätter, vad de heter och vad de har för syfte.
+Gemensamt för många tjänster är kakorna som sätts av Matomo (fd. Piwik), se nedan för information om just Matomo.
 
 En lista med tjänster och kakor finns att hitta i Confluence, dubbekolla gärna att informationen stämmer för din tjänst.
 
@@ -44,14 +42,17 @@ eller
 
 #### Importera i din applikation
 
+Import av CookieConsent kan se olika ut beroende på om du använder dig av ett ramverk eller ren javascript.
+Nedan följer exempel på de vanligaste fallen:
+
+##### Vanilla Javascript
 ```js
 import KbCookieConsent from '@kungbib/cookie-consent';
 // aktivera CookieConsent
 KbCookieConsent.run();
 ```
-Detta räcker för att en CookieConsent-dialog ska dyka upp i din applikation, men  du kommer att behöva skicka med viss konfiguration, tex. specificera just de kakor som din applikation sätter, samt genomföra förändringar i script som sätter kakor.
-
-Nedan följer exempel på implementationer i ramverk vi använder:
+Detta räcker för att CookieConsent-dialogen ska dyka upp i din applikation, testa gärna att det fungerar! 
+Du kommer dock att behöva skicka med viss konfiguration, tex. specificera just de kakor som din applikation sätter, samt genomföra förändringar i script som sätter kakor.
 
 ##### Vue / Nuxt
 
@@ -68,7 +69,58 @@ Kommer snart
 
 ## Steg 2: Specificera kakor som din tjänst sätter 
 
-Funktionen `KbCookieConsent.run()` tar emot ett objekt med konfiguration.
+Funktionen `KbCookieConsent.run()` tar emot ett konfigurations-objekt som följer samma struktur som för CookieConsent v3.
+För att underlätta innehåller KBCookieConsent en del fördefinierade värden (tex. översättningar, sektioner, egenskaper som styr dialogens utseende och placering). 
+
+Vill du dyka ner i ytterligare detaljer, se fullständig dokumentation: [CookieConsent configuration reference](https://cookieconsent.orestbida.com/reference/configuration-reference.html).
+
+### Nödvändiga kakor
+KbCookieConsent är fördefinierad med en sektion som informerar om nödvändiga kakor. Om din tjänst innehåller *inga* nödvändiga kakor, kan du dölja sektionen:
+
+```
+KbCookieConsent.run({
+  categories: {
+    necessary: null
+  }
+});
+```
+
+### Analytiska kakor
+Analytiska kakor ska kunna nekas av användaren. I de flesta fallen innebär detta kakor som sätts av Matomo (fd. Piwik).
+Även denna sektion är fördefinierad för att hantera Matomo-kakor (alla kakor som innehåller strängen `_pk.`). 
+Om din tjänst använder *inga* analytiska kakor, dölj sektionen:
+
+```
+KbCookieConsent.run({
+  categories: {
+    analytics: null
+  }
+});
+```
+
+### Funktionella kakor
+Om din tjänst använder funktionella kakor (kakor som förbättrar användarupplevelsen, men är inte nödvändiga för att tjänsten ska fungera), lägg till följande sektion:
+
+```
+KbCookieConsent.run({
+  categories: {
+    functional: {
+      autoClear: {
+        cookies: [
+          {
+            name: 'name-of-your-cookie' // namnet på din funktionella kaka
+          },
+          {
+            name: 'name-of-your-another-cookie' // namnet på din funktionella kaka
+          }
+        ]
+      }
+    }
+  }
+});
+```
+
+
 
 ## Steg 3: Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
 
@@ -76,10 +128,6 @@ kommer snart
 
 
 ## Steg 4: Ytterligare konfiguration
-
-Konfigurationen av KB CookieConsent fungerar på samma sätt som för CookieConsent v3, i detta avsnitt fokuserar vi på de mest relevanta bitarna.
-
-Vill du dyka ner i ytterligare detaljer, se fullständig dokumentation: [CookieConsent configuration reference](https://cookieconsent.orestbida.com/reference/configuration-reference.html).
 
 KB CookieConsent innehåller en fördefinierad konfiguration anpassad för KBs tjänster,
 vilket innebär att du behöver till exempel inte definiera egenskaperna `categories` och `language`.
