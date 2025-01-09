@@ -75,28 +75,15 @@ För att underlätta innehåller KBCookieConsent en del fördefinierade värden 
 Vill du dyka ner i ytterligare detaljer, se fullständig dokumentation: [CookieConsent configuration reference](https://cookieconsent.orestbida.com/reference/configuration-reference.html).
 
 ### Nödvändiga kakor
-KbCookieConsent är fördefinierad med en sektion som informerar om nödvändiga kakor. Om din tjänst innehåller *inga* nödvändiga kakor, kan du dölja sektionen:
+KbCookieConsent är fördefinierad med en sektion som informerar om nödvändiga kakor. 
+Om din tjänst innehåller *inga* nödvändiga kakor, se avsnittet "Dölj en fördefinierad sektion"
 
-```
-KbCookieConsent.run({
-  categories: {
-    necessary: null
-  }
-});
-```
+Om du vill ändra den fördefinierade texten för denna sektion, se avsnittet "Ändra 
 
 ### Analytiska kakor
 Analytiska kakor ska kunna nekas av användaren. I de flesta fallen innebär detta kakor som sätts av Matomo (fd. Piwik).
 Även denna sektion är fördefinierad för att hantera Matomo-kakor (alla kakor som innehåller strängen `_pk.`). 
 Om din tjänst använder *inga* analytiska kakor, dölj sektionen:
-
-```
-KbCookieConsent.run({
-  categories: {
-    analytics: null
-  }
-});
-```
 
 ### Funktionella kakor
 Om din tjänst använder funktionella kakor (kakor som förbättrar användarupplevelsen, men är inte nödvändiga för att tjänsten ska fungera), lägg till följande sektion:
@@ -119,8 +106,6 @@ KbCookieConsent.run({
   }
 });
 ```
-
-
 
 ## Steg 3: Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
 
@@ -183,15 +168,58 @@ Nedan ser du standardkonfigurationen som skickas med när du exekverar funktione
 }
 ```
 
-## Vanligt förekommande fall och lösningar
+## Övrigt
 
-### Vilka steg måste jag göra för att få dialogen att fungera med Matomo?
+### Dölj en fördefinierad sektion
 
-kommer snart
+```
+KbCookieConsent.run({
+  categories: {
+    analytics: null
+  }
+});
+```
 
-### Hur anpassar jag texter i bannern och dialogen?
+### Anpassa texter för sektioner i dialogen
 
-kommer snart
+```
+KbCookieConsent.run({
+  language: {
+    translations: {
+      sv: {
+        preferencesModal: {
+          sections: [
+            sections: [
+              {
+                title: 'Om användning av kakor',
+                description:
+                  'Tjänsten Svenska tidningar använder kakor (cookies). En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte.'
+              },
+              {
+                title: 'Nödvändiga kakor',
+                description:
+                'Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.',
+                linkedCategory: 'necessary'
+              },
+              {
+                title: 'Analytiska kakor',
+                description:
+                'Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.',
+                linkedCategory: 'analytics'
+              },
+              {
+                title: 'Mer information',
+                description:
+                'Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten.'
+              }
+            ]
+          ]
+        }
+      }
+    }
+  }
+})
+```
 
 ### Hur lägger jag till en lista på nödvändiga kakor?
 
