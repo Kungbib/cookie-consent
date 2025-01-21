@@ -1,0 +1,47 @@
+<html lang="sv">
+
+<head>
+  <meta charset="utf-8">
+  <title>Start</title>
+  <script src="../../dist/cookie-consent.umd.js"></script>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Cookie consent example</h1>
+
+  <p>
+    See the source code for implementation
+  </p>
+
+  <script>
+    /* Site specific config
+      properties below override properties in default config */
+    const myConfig = {
+      language: {
+        translations: {
+          sv: {
+            consentModal: {
+              title: 'Hej! Vi bjuder på kakor!' // overriding the default title
+            },
+            preferencesModal: {
+              title: 'fooo för kakor',
+              acceptAllBtn: 'Tillåt alla kakor',
+              acceptNecessaryBtn: 'Tillåt bara nödvändiga kakor',
+              savePreferencesBtn: 'Spara och godkänn',
+              closeIconLabel: 'Stäng'
+            }
+          }
+        }
+      }
+    };
+    /* Run cookie consent script */
+    KbCookieConsent.run(myConfig);
+  </script>
+</body>
+
+</html>

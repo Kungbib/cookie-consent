@@ -26,7 +26,8 @@ function deepMerge(...objects) {
 
 const runWrapper = function(func) {
   return function(customConfig) {
-    return func(deepMerge(cookieConsentConfig, customConfig));
+    const mergedConfig = deepMerge(cookieConsentConfig, customConfig);
+    return func(mergedConfig);
   }
 }
 
