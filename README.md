@@ -2,21 +2,21 @@
 
 Detta paket är en "wrapper" kring [CookieConsent v3](https://github.com/orestbida/cookieconsent).
 
-Det innebär att man använder det på samma sätt som ovan nämda CookieConsent, med skillnaden att detta paket innehåller CSS-styling anpassat efter KBs Stilguide och viss konfiguration som är gemensam för alla våra tjänster.
+Det innebär att man använder det på samma sätt som ovan nämnda CookieConsent, med skillnaden att detta paket innehåller CSS-styling anpassat efter KBs Stilguide och viss konfiguration som är gemensam för alla våra tjänster.
 
-Med denna wrapper är det enklare att implementera CookieConsent med en grundplåt av inställningar anpassade för KB, samtidigt som man fortfarande har möjligheten att detaljanpassa enskilda implementationer.
+Med denna wrapper blir det enklare att implementera CookieConsent med en grundläggande uppsättning inställningar anpassade för KB, samtidigt som man fortfarande har möjlighet att detaljanpassa enskilda implementationer.
 
-## Bra att veta innan påbörjad implementation
+## Bra att veta innan du påbörjar implementationen
 
 Innan du påbörjar att implementera CookieConsent-dialogen, behöver du veta följande: 
 
-- vilka kakor sätts av din tjänst, vad de heter och vad de har för syfte
+- vilka kakor sätts av din tjänst, vad de heter, och vad de har för syfte
 - vilka kakor är nödvändiga
 - vilka script sätter de frivilliga kakorna
 
 Gemensamt för många tjänster är kakorna som sätts av Matomo (fd. Piwik), se nedan för information om just Matomo.
 
-En lista med tjänster och kakor finns att hitta i Confluence, dubbekolla gärna att informationen stämmer för din tjänst.
+En lista med tjänster och kakor finns att hitta i Confluence, dubbelkolla gärna att informationen stämmer för din tjänst.
 
 ## Steg 1: Lägg till CookieConsent i din tjänst
 
@@ -26,7 +26,7 @@ I modernare webbapplikationer genom att installera NPM-paketet som ett beroende 
 
 I äldre applikationer som inte använder sig utav NPM-paket, genom att använda sig utav `<script>`-tag.
 
-Är du osäker på vilken implemetation som är bäst i den tjänst som du är ansvarig för, [kontakta oss](#kontakt-och-ansvariga).
+Är du osäker på vilken implementation som är bäst i den tjänst som du är ansvarig för, [kontakta oss](#kontakt-och-ansvariga).
 
 ### Implementation med NPM och `import`
 
@@ -78,15 +78,15 @@ Vill du dyka ner i ytterligare detaljer, se fullständig dokumentation: [CookieC
 KbCookieConsent är fördefinierad med en sektion som informerar om nödvändiga kakor. 
 Om din tjänst innehåller *inga* nödvändiga kakor, se avsnittet "Dölj en fördefinierad sektion"
 
-Om du vill ändra den fördefinierade texten för denna sektion, se avsnittet "Ändra 
+Om du vill ändra den fördefinierade texten för denna sektion, se avsnittet "Ändra..." 
 
 ### Analytiska kakor
 Analytiska kakor ska kunna nekas av användaren. I de flesta fallen innebär detta kakor som sätts av Matomo (fd. Piwik).
-Även denna sektion är fördefinierad för att hantera Matomo-kakor (alla kakor som innehåller strängen `_pk.`). 
+Även denna sektion är fördefinierad för att hantera kakor som sätts av Matomo (alla kakor som innehåller strängen `_pk.`). 
 Om din tjänst använder *inga* analytiska kakor, dölj sektionen:
 
 ### Funktionella kakor
-Om din tjänst använder funktionella kakor (kakor som förbättrar användarupplevelsen, men är inte nödvändiga för att tjänsten ska fungera), lägg till följande sektion:
+Om din tjänst använder funktionella kakor, det vill säga kakor som förbättrar användarupplevelsen men inte är nödvändiga för att tjänsten ska fungera, lägg till följande sektion:
 
 ```
 KbCookieConsent.run({
