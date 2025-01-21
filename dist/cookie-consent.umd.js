@@ -72,7 +72,7 @@
       "consentModal": {
         "title": "Vi använder kakor",
         "description":
-          "Tjänsten Svenska tidningar använder olika typer av kakor (cookies). De finns för att förbättra användarupplevelsen och för att tjänstens funktioner ska fungera som de ska. Välj dina inställningar för vilka kakor du ger ditt samtycke till. Du kan alltid ändra dina val senare genom att klicka på “Hantera cookies” längst ner på sidan.",
+          "Den här tjänsten använder olika typer av kakor (cookies). De finns för att förbättra användarupplevelsen och för att tjänstens funktioner ska fungera som de ska. Välj dina inställningar för vilka kakor du ger ditt samtycke till. Du kan alltid ändra dina val senare genom att klicka på “Hantera cookies” längst ner på sidan.",
         "acceptAllBtn": "Tillåt alla kakor",
         "acceptNecessaryBtn": "Tillåt bara nödvändiga kakor",
         "showPreferencesBtn": "Inställningar",
@@ -88,7 +88,7 @@
           {
             "title": "Om användning av kakor",
             "description":
-              "Tjänsten Svenska tidningar använder kakor (cookies).  En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
+              "Den här tjänsten använder kakor (cookies).  En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
           },
           {
             "title": "Nödvändiga kakor",
@@ -110,8 +110,6 @@
         ]
       }
     };
-
-  // import * as translationsSv from './translations/sv.json';
 
   const translationsConfig = {
     sv
@@ -185,7 +183,8 @@
 
   const runWrapper = function(func) {
     return function(customConfig) {
-      return func(deepMerge(cookieConsentConfig, customConfig));
+      const mergedConfig = deepMerge(cookieConsentConfig, customConfig);
+      return func(mergedConfig);
     }
   };
 
