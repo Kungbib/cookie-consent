@@ -22,9 +22,9 @@ En lista med tjänster och kakor finns att hitta i Confluence, dubbelkolla gärn
 
 Implementationen sker på två olika sätt:
 
-I modernare webbapplikationer genom att installera NPM-paketet som ett beroende till din applikation och använda `import` i ett javascript-fil.
+- I modernare webbapplikationer genom att installera NPM-paketet som ett beroende till din applikation och använda `import` i ett javascript-fil.
 
-I äldre applikationer som inte använder sig utav NPM-paket, genom att använda sig utav `<script>`-tag.
+- I äldre applikationer som inte använder sig utav NPM-paket, genom att använda sig utav `<script>`-tag.
 
 Är du osäker på vilken implementation som är bäst i den tjänst som du är ansvarig för, [kontakta oss](#kontakt-och-ansvariga).
 
