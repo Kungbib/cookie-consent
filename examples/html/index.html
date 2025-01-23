@@ -3,12 +3,32 @@
 <head>
   <meta charset="utf-8">
   <title>Start</title>
-  <script src="../../dist/cookie-consent.umd.js"></script>
+  <script src="/js/cookie-consent.umd.js"></script>
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
     }
   </style>
+  <script 
+    type="text/plain"
+    data-category="analytics"
+  >
+    alert('this script would set a cookie');
+  </script>
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['requireConsent']);
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//analytics.kb.se/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '8']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
 </head>
 
 <body>
@@ -18,24 +38,40 @@
     See the source code for implementation
   </p>
 
+
+  <a href="#" data-cc="show-preferencesModal">Inställningar för kakor</a>
+
   <script>
     /* Site specific config
       properties below override properties in default config */
     const myConfig = {
-      language: {
-        translations: {
-          sv: {
-            consentModal: {
-              title: 'Hej! Vi bjuder på kakor!' // overriding the default title
-            },
-            preferencesModal: {
-              title: 'fooo för kakor',
-              acceptAllBtn: 'Tillåt alla kakor',
-              acceptNecessaryBtn: 'Tillåt bara nödvändiga kakor',
-              savePreferencesBtn: 'Spara och godkänn',
-              closeIconLabel: 'Stäng'
-            }
+      categories: {
+        necessary: {
+          readOnly: true,
+          enabled: true
+        },
+        analytics: {
+          autoClear: {
+            cookies: [
+              {
+                name: /^_pk.*/
+              }
+            ]
           }
+        }
+      },
+      onConsent: ({ cookie }) => {
+        if (cookie.categories.includes('analytics')) {
+          window._paq = window._paq || [];
+          window._paq.push(['rememberConsentGiven']);
+        }
+      },
+      onChange: ({ cookie }) => {
+        if (cookie.categories.includes('analytics')) {
+          window._paq = window._paq || [];
+          window._paq.push(['rememberConsentGiven']);
+        } else {
+          window._paq.push(['forgetConsentGiven']);
         }
       }
     };

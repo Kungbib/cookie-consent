@@ -1,7 +1,9 @@
 import sv from './translations/sv';
+import en from './translations/en';
 
 const translationsConfig = {
-  sv
+  sv,
+  en
 };
 
 export const cookieConsentConfig = {
@@ -12,35 +14,6 @@ export const cookieConsentConfig = {
     },
     preferencesModal: {
       layout: 'box'
-    }
-  },
-  categories: {
-    necessary: {
-      readOnly: true,
-      enabled: true
-    },
-    analytics: {
-      autoClear: {
-        cookies: [
-          {
-            name: /^_pk.*/
-          }
-        ]
-      }
-    }
-  },
-  onConsent: ({ cookie }) => {
-    if (cookie.categories.includes('analytics')) {
-      window._paq = window._paq || [];
-      window._paq.push(['rememberConsentGiven']);
-    }
-  },
-  onChange: ({ cookie }) => {
-    if (cookie.categories.includes('analytics')) {
-      window._paq = window._paq || [];
-      window._paq.push(['rememberConsentGiven']);
-    } else {
-      window._paq.push(['forgetConsentGiven']);
     }
   },
   language: {

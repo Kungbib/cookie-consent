@@ -1,6 +1,6 @@
 #cc-main {
   /** Change font **/
-  --cc-font-family: roboto;
+  --cc-font-family: inherit;
 
   /** Background and text colors */
   --cc-bg: #65c6fd;
@@ -57,7 +57,7 @@
 #cc-main .pm__title {
   display: flex;
   align-items: center;
-  font-family: Sentinel, Roboto, serif;
+  font-family: Sentinel, Roboto, "Open Sans", sans-serif;
   font-size: 1.4em;
 }
 
