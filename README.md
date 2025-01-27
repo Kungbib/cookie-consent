@@ -1,5 +1,6 @@
 # KB CookieConsent
 
+
 Ett kodbibliotek för att underlätta implementationen av dialogrutan för cookie-samtycke.
 Bygger på javascript-pluginet [CookieConsent v3](https://github.com/orestbida/cookieconsent).
 
