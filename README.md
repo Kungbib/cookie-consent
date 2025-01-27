@@ -1,6 +1,5 @@
 # KB CookieConsent
 
-
 Ett kodbibliotek för att underlätta implementationen av dialogrutan för cookie-samtycke.
 Bygger på javascript-pluginet [CookieConsent v3](https://github.com/orestbida/cookieconsent).
 
@@ -75,55 +74,55 @@ Varje kategori kopplas till respektive sektion i dialogen för inställningar. D
 ```js
 // aktivera CookieConsent
 KbCookieConsent.run({
-	categories: {
-		necessary: {
-			readOnly: true,
-			enabled: true
-		},
-		analytics: {
-			autoClear: {
-				cookies: [
-					{
-						// alla kakor som har "_pk." i namnet = Matomo-kakor
-						name: /^_pk.*/
-					}
-				]
-			}
-		}
-	},
-	language: {
-		translations: {
-			sv: {
-				preferencesModal: {
-					sections: [
-						// Toppsektion med allmän information
-						{
-							title: "Om användning av kakor",
-							description: "Den här tjänsten använder kakor (cookies). En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
-						},
-						// Sektionen för nödvändiga kakor
-						{
-							title: "Nödvändiga kakor",
-							description: "Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.",
-							linkedCategory: "necessary", // här länkar vi samman beskrivningen med respektive kategori
-						},
-						// Sektionen för analytiska kakor
-						{
-							title: "Analytiska kakor",
-							description:
-								"Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.",
-							linkedCategory: "analytics"
-						},
-						// Sektionen i botten för ytterligare allmän information
-						{
-							title: "Mer information",
-							description: "Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten."
-						}
-					]
-				}
-			}
-		}
-	}
+  categories: {
+    necessary: {
+      readOnly: true,
+      enabled: true
+    },
+    analytics: {
+      autoClear: {
+        cookies: [
+          {
+            // alla kakor som har "_pk." i namnet = Matomo-kakor
+            name: /^_pk.*/
+          }
+        ]
+      }
+    }
+  },
+  language: {
+    translations: {
+      sv: {
+        preferencesModal: {
+          sections: [
+            // Toppsektion med allmän information
+            {
+              title: "Om användning av kakor",
+              description: "Den här tjänsten använder kakor (cookies). En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
+            },
+            // Sektionen för nödvändiga kakor
+            {
+              title: "Nödvändiga kakor",
+              description: "Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.",
+              linkedCategory: "necessary", // här länkar vi samman beskrivningen med respektive kategori
+            },
+            // Sektionen för analytiska kakor
+            {
+              title: "Analytiska kakor",
+              description:
+                "Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.",
+              linkedCategory: "analytics"
+            },
+            // Sektionen i botten för ytterligare allmän information
+            {
+              title: "Mer information",
+              description: "Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten."
+            }
+          ]
+        }
+      }
+    }
+  }
 });
 ```
 
@@ -153,13 +152,10 @@ Det finns två sätt att se till att Matomo-script är inaktivt så länge anvä
 Om tjänsten implementerar Matomo genom en script-tagg, till exempel:
 
 ```html
-
 <script type="text/javascript">
+  var _paq = window._paq || [];
 
-var _paq = window._paq || [];
-
-// ... 
-
+  // ... 
 </script>
 ```
 
@@ -167,14 +163,13 @@ Modifiera script-taggen på följande sätt:
 
 ```html
 <script
-	type="text/plain"
-	data-category="analytics"
+  type="text/plain"
+  data-category="analytics"
 >
 
-var _paq = window._paq || [];
+  var _paq = window._paq || [];
 
-// ... 
-
+  // ... 
 </script>
 ```
 
@@ -188,10 +183,10 @@ Exempel på Matomo implementation i Vue:
 
 ```js
 Vue.use(VueMatomo, {
-	router: app.router,
-	host: 'https://analytics.kb.se',
-	siteId: $config.matomoId,
-	requireConsent: true // lägg till detta
+  router: app.router,
+  host: 'https://analytics.kb.se',
+  siteId: $config.matomoId,
+  requireConsent: true // lägg till detta
 });
 ```
 
@@ -202,26 +197,26 @@ Lägg till följande callbacks i konfigurationen:
 ```js
 // aktivera CookieConsent
 KbCookieConsent.run({
-	categories: {
-		// ...
-	},
-	language: {
-		// ...
-	},
-	onConsent: ({ cookie }) => {
-		if (cookie.categories.includes('analytics')) {
-			window._paq = window._paq || [];
-			window._paq.push(['rememberConsentGiven']);
-		}
-	},
-	onChange: ({ cookie }) => {
-		if (cookie.categories.includes('analytics')) {
-			window._paq = window._paq || [];
-			window._paq.push(['rememberConsentGiven']);
-		} else {
-			window._paq.push(['forgetConsentGiven']);
-		}
-	}
+  categories: {
+    // ...
+  },
+  language: {
+    // ...
+  },
+  onConsent: ({ cookie }) => {
+    if (cookie.categories.includes('analytics')) {
+      window._paq = window._paq || [];
+      window._paq.push(['rememberConsentGiven']);
+    }
+  },
+  onChange: ({ cookie }) => {
+    if (cookie.categories.includes('analytics')) {
+      window._paq = window._paq || [];
+      window._paq.push(['rememberConsentGiven']);
+    } else {
+      window._paq.push(['forgetConsentGiven']);
+    }
+  }
 });
 ```
 
