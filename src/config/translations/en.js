@@ -13,31 +13,7 @@ const en = {
       "acceptAllBtn": "Allow all cookies",
       "acceptNecessaryBtn": "Allow only necessary cookies",
       "savePreferencesBtn": "Save and accept",
-      "closeIconLabel": "Close",
-      "sections": [
-        {
-          "title": "About cookie usage",
-          "description":
-            "This service uses cookies. A cookie is a small text file stored on the visitor's computer. KB's services are designed to reduce the risk of spreading your data. The information stored via cookies can never be used by third parties for marketing purposes."
-        },
-        {
-          "title": "Necessary cookies",
-          "description":
-            "These cookies are required for the service to be secure and function properly. Therefore, they cannot be disabled.",
-          "linkedCategory": "necessary"
-        },
-        {
-          "title": "Analytical cookies",
-          "description":
-            "Cookies that provide us with information about how the website is used, allowing us to maintain, operate, and improve the user experience.",
-          "linkedCategory": "analytics"
-        },
-        {
-          "title": "More information",
-          "description":
-            "You can always change your preferences by clicking on 'Manage cookies' at the bottom of the page in the footer."
-        }
-      ]
+      "closeIconLabel": "Close"
     }
   }
   
