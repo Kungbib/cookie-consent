@@ -1,28 +1,25 @@
 # KB CookieConsent
 
-Detta paket är en "wrapper" kring [CookieConsent v3](https://github.com/orestbida/cookieconsent).
-
-Det innebär att man använder det på samma sätt som ovan nämnda CookieConsent, med skillnaden att detta paket innehåller CSS-styling anpassat efter KBs Stilguide och viss konfiguration som är gemensam för alla våra tjänster.
-
-Med denna wrapper blir det enklare att implementera CookieConsent med en grundläggande uppsättning inställningar anpassade för KB, samtidigt som man fortfarande har möjlighet att detaljanpassa enskilda implementationer.
+Ett kodbibliotek för att underlätta implementationen av dialogrutan för cookie-samtycke.
+Bygger på javascript-pluginet [CookieConsent v3](https://github.com/orestbida/cookieconsent).
 
 ## Bra att veta innan du påbörjar implementationen
 
-Innan du påbörjar att implementera CookieConsent-dialogen, behöver du veta följande: 
+Innan du påbörjar implementationen av detta script, behöver du veta följande: 
 
-- vilka kakor sätts av din tjänst, vad de heter, och vad de har för syfte
-- vilka kakor är nödvändiga
-- vilka script sätter de frivilliga kakorna
+- vilka kakor sätts av din tjänst, vad de heter, dess syfte
+- vilka kakor räknas till nödvändiga och vilka till icke-nödvändiga
+- vilken kategori respektive kaka tillhör (nödvändiga, analytiska, funktionella)
 
-Gemensamt för många tjänster är kakorna som sätts av Matomo (fd. Piwik), se nedan för information om just Matomo.
+Gemensamt för många tjänster är kakorna som sätts av Matomo (fd. Piwik). Dessa kakor ska tillhöra kategorin Analytiska kakor och ska kunna nekas av besökaren.
 
 En lista med tjänster och kakor finns att hitta i Confluence, dubbelkolla gärna att informationen stämmer för din tjänst.
 
-## Steg 1: Lägg till CookieConsent i din tjänst
+## Lägg till CookieConsent i din tjänst
 
 Implementationen sker på två olika sätt:
 
-- I modernare webbapplikationer genom att installera NPM-paketet som ett beroende till din applikation och använda `import` i ett javascript-fil.
+- I modernare webbapplikationer genom att installera NPM-paketet som ett beroende till din applikation och använda `import` i en javascript-fil.
 
 - I äldre applikationer som inte använder sig utav NPM-paket, genom att använda sig utav `<script>`-tag.
 
@@ -34,209 +31,267 @@ Följ instruktionerna nedan om din tjänsts källkod är anpassad för att konsu
 
 #### Installera paketet i ditt projekt
 
-`npm install @kungbib/cookie-consent`
+```shell
+npm install @kungbib/cookie-consent
 
-eller
+// eller
 
-`yarn install @kungbib/cookie-consent`
+yarn install @kungbib/cookie-consent
+```
 
 #### Importera i din applikation
 
 Import av CookieConsent kan se olika ut beroende på om du använder dig av ett ramverk eller ren javascript.
-Nedan följer exempel på de vanligaste fallen:
 
-##### Vanilla Javascript
 ```js
 import KbCookieConsent from '@kungbib/cookie-consent';
-// aktivera CookieConsent
-KbCookieConsent.run();
 ```
-Detta räcker för att CookieConsent-dialogen ska dyka upp i din applikation, testa gärna att det fungerar! 
-Du kommer dock att behöva skicka med viss konfiguration, tex. specificera just de kakor som din applikation sätter, samt genomföra förändringar i script som sätter kakor.
-
-##### Vue / Nuxt
-
-Kommer snart
-
-##### SvelteKit
-
-Kommer snart
-
 
 ### Implementera med `<script>`-tag
 
 Kommer snart
 
-## Steg 2: Specificera kakor som din tjänst sätter 
+## Steg 2: Definiera kategorier och sektioner
 
-Funktionen `KbCookieConsent.run()` tar emot ett konfigurations-objekt som följer samma struktur som för CookieConsent v3.
-För att underlätta innehåller KBCookieConsent en del fördefinierade värden (tex. översättningar, sektioner, egenskaper som styr dialogens utseende och placering). 
+Funktionen `KbCookieConsent.run()` är den funktionen som aktiverar cookie-dialogen.
+
+Fuktionen tar emot ett konfigurations-objekt som följer samma struktur som för CookieConsent v3.
+För att underlätta innehåller `KbCookieConsent` en del fördefinierade värden (tex. översättningar och egenskaper som styr dialogens utseende och placering). 
 
 Vill du dyka ner i ytterligare detaljer, se fullständig dokumentation: [CookieConsent configuration reference](https://cookieconsent.orestbida.com/reference/configuration-reference.html).
 
-### Nödvändiga kakor
-KbCookieConsent är fördefinierad med en sektion som informerar om nödvändiga kakor. 
-Om din tjänst innehåller *inga* nödvändiga kakor, se avsnittet "Dölj en fördefinierad sektion"
+### Exempel på konfiguration
 
-Om du vill ändra den fördefinierade texten för denna sektion, se avsnittet "Ändra..." 
+Nedan följer ett exempel på hur vi definierar kategorier "necessary" och "analytics".
 
-### Analytiska kakor
-Analytiska kakor ska kunna nekas av användaren. I de flesta fallen innebär detta kakor som sätts av Matomo (fd. Piwik).
-Även denna sektion är fördefinierad för att hantera kakor som sätts av Matomo (alla kakor som innehåller strängen `_pk.`). 
-Om din tjänst använder *inga* analytiska kakor, dölj sektionen:
+**Använd gärna denna konfiguration som utgångspunkt.**
 
-### Funktionella kakor
-Om din tjänst använder funktionella kakor, det vill säga kakor som förbättrar användarupplevelsen men inte är nödvändiga för att tjänsten ska fungera, lägg till följande sektion:
+De flesta av våra tjänster sätter nödvändiga och analytiska kakor
 
-```
-KbCookieConsent.run({
-  categories: {
-    functional: {
-      autoClear: {
-        cookies: [
-          {
-            name: 'name-of-your-cookie' // namnet på din funktionella kaka
-          },
-          {
-            name: 'name-of-your-another-cookie' // namnet på din funktionella kaka
-          }
-        ]
-      }
-    }
-  }
-});
-```
+Varje kategori kopplas till respektive sektion i dialogen för inställningar. Dessa sektioner definierar vi under `language`.
 
-## Steg 3: Förhindra att kakor sätts innan anvädaren godkänner eller nekar kakor
-
-kommer snart
-
-
-## Steg 4: Ytterligare konfiguration
-
-KB CookieConsent innehåller en fördefinierad konfiguration anpassad för KBs tjänster,
-vilket innebär att du behöver till exempel inte definiera egenskaperna `categories` och `language`.
-
-Däremot, beroende på hur just din tjänst fungerar, kan du behöva skriva över denna standardkonfiguration.
-
-Nedan ser du standardkonfigurationen som skickas med när du exekverar funktionen `KbCookieConsent.run()`:
 
 ```js
-{
-  guiOptions: {
-    consentModal: {
-      layout: 'bar',
-      position: 'bottom right'
-    },
-    preferencesModal: {
-      layout: 'box'
-    }
-  },
-  categories: {
-    necessary: {
-      readOnly: true,
-      enabled: true
-    },
-    analytics: {
-      autoClear: {
-        cookies: [
-          {
-            name: /^_pk.*/
-          }
-        ]
-      }
-    }
-  },
-  onConsent: ({ cookie }) => {
-    if (cookie.categories.includes('analytics')) {
-      window._paq = window._paq || [];
-      window._paq.push(['rememberConsentGiven']);
-    }
-  },
-  onChange: ({ cookie }) => {
-    if (cookie.categories.includes('analytics')) {
-      window._paq = window._paq || [];
-      window._paq.push(['rememberConsentGiven']);
-    } else {
-      window._paq.push(['forgetConsentGiven']);
-    }
-  },
-  language: {
-    default: 'sv',
-    translations: translationsConfig
-  }
-}
-```
-
-## Övrigt
-
-### Dölj en fördefinierad sektion
-
-```
+// aktivera CookieConsent
 KbCookieConsent.run({
-  categories: {
-    analytics: null
-  }
+	categories: {
+		necessary: {
+			readOnly: true,
+			enabled: true
+		},
+		analytics: {
+			autoClear: {
+				cookies: [
+					{
+						// alla kakor som har "_pk." i namnet = Matomo-kakor
+						name: /^_pk.*/
+					}
+				]
+			}
+		}
+	},
+	language: {
+		translations: {
+			sv: {
+				preferencesModal: {
+					sections: [
+						// Toppsektion med allmän information
+						{
+							title: "Om användning av kakor",
+							description: "Den här tjänsten använder kakor (cookies). En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte."
+						},
+						// Sektionen för nödvändiga kakor
+						{
+							title: "Nödvändiga kakor",
+							description: "Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.",
+							linkedCategory: "necessary", // här länkar vi samman beskrivningen med respektive kategori
+						},
+						// Sektionen för analytiska kakor
+						{
+							title: "Analytiska kakor",
+							description:
+								"Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.",
+							linkedCategory: "analytics"
+						},
+						// Sektionen i botten för ytterligare allmän information
+						{
+							title: "Mer information",
+							description: "Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten."
+						}
+					]
+				}
+			}
+		}
+	}
 });
 ```
 
-### Anpassa texter för sektioner i dialogen
 
+### Mer om olika typer av kakor
+#### Nödvändiga kakor
+Om din tjänst använder *inga* nödvändiga kakor, ta bort kategorin `necessary` och respektive sektion.
+
+#### Analytiska kakor
+Analytiska kakor ska kunna nekas av användaren. I de flesta fallen innebär detta kakor som sätts av Matomo (fd. Piwik).
+Kakor som sätts av Matomo börjar i regel med `_pk.`. 
+
+Om din tjänst använder *inga* analytiska kakor, ta bort kategorin `analytics` och respektive sektion.
+
+## Steg 3: Hantera script som sätter kakor
+
+Hittills har vi endast definierat kategorier och tillhörande kakor.
+
+I detta steg förhindrar vi att kakorna sätts tills användaren har accepterat respektive kakor.
+
+### Förhindra analytiska kakor
+
+Det finns två sätt att se till att Matomo-script är inaktivt så länge användaren inte har gett sitt godkännande.
+
+#### Alt. 1: Inaktivera script-taggen
+
+Om tjänsten implementerar Matomo genom en script-tagg, till exempel:
+
+```html
+
+<script type="text/javascript">
+
+var _paq = window._paq || [];
+
+// ... 
+
+</script>
 ```
+
+Modifiera script-taggen på följande sätt:
+
+```html
+<script
+	type="text/plain"
+	data-category="analytics"
+>
+
+var _paq = window._paq || [];
+
+// ... 
+
+</script>
+```
+
+Detta förhindrar att scriptet körs. När användaren godkänner kakor av kategorin `analytics`, ser CookieConsent till att scriptet aktiveras.
+ 
+#### Alt 2: Använd callbacks
+
+Om tjänsten aktiverar Matomo inuti egna scripts genom till exempel wrappers, kan det vara enklare att använda sig utav callbacks.
+
+Exempel på Matomo implementation i Vue:
+
+```js
+Vue.use(VueMatomo, {
+	router: app.router,
+	host: 'https://analytics.kb.se',
+	siteId: $config.matomoId,
+	requireConsent: true // lägg till detta
+});
+```
+
+`requireConsent: true` ska läggas till och det talar om för Matomo att inte börja samla data omedelbart.
+
+Lägg till följande callbacks i konfigurationen:
+
+```js
+// aktivera CookieConsent
 KbCookieConsent.run({
-  language: {
-    translations: {
-      sv: {
-        preferencesModal: {
-          sections: [
-            sections: [
-              {
-                title: 'Om användning av kakor',
-                description:
-                  'Tjänsten Svenska tidningar använder kakor (cookies). En kaka är en liten textfil som lagras i besökarens dator. KB:s tjänster är designade för att minska risken för spridning av dina uppgifter. Informationen som lagras via kakor kan aldrig användas av tredje part i marknadsföringssyfte.'
-              },
-              {
-                title: 'Nödvändiga kakor',
-                description:
-                'Dessa kakor krävs för att tjänsten ska vara säker och fungera som den ska. Därför går de inte att inaktivera.',
-                linkedCategory: 'necessary'
-              },
-              {
-                title: 'Analytiska kakor',
-                description:
-                'Kakor som ger oss information om hur webbplatsen används som gör att vi kan underhålla, driva och förbättra användarupplevelsen.',
-                linkedCategory: 'analytics'
-              },
-              {
-                title: 'Mer information',
-                description:
-                'Du kan alltid ändra dina val genom att klicka på “Hantera cookies” längst ner på sidan i sidfoten.'
-              }
-            ]
-          ]
-        }
-      }
-    }
-  }
-})
+	categories: {
+		// ...
+	},
+	language: {
+		// ...
+	},
+	onConsent: ({ cookie }) => {
+		if (cookie.categories.includes('analytics')) {
+			window._paq = window._paq || [];
+			window._paq.push(['rememberConsentGiven']);
+		}
+	},
+	onChange: ({ cookie }) => {
+		if (cookie.categories.includes('analytics')) {
+			window._paq = window._paq || [];
+			window._paq.push(['rememberConsentGiven']);
+		} else {
+			window._paq.push(['forgetConsentGiven']);
+		}
+	}
+});
 ```
 
-### Hur lägger jag till en lista på nödvändiga kakor?
+#### Läs mer om scripthantering
 
-kommer snart
+https://cookieconsent.orestbida.com/advanced/manage-scripts.html
 
-### Hur byter jag alla texter till engelska?
 
-kommer snart
+## Steg 4: Lägg till en länk i footer
 
-## Anpassa utseende
+Det är önskvärt att användaren ska kunna revidera och ändra sina inställningar.
+Genom att lägga följande länk, förslagsvis i tjänstens footer, möjliggör vi detta:
 
-kommer snart
+```html
 
-## Kontrollera att det fungerar
+<a data-cc="show-preferencesModal" href="#" aria-haspopup="dialog">
+    Hantera kakor
+</a>
 
-kommer snart
+```
 
-## Kontakt och ansvariga
+## Steg 5: Testa att allt fungerar
+
+I Chrome:
+
+##### Kontrollera "Tillåt alla kakor"
+
+- Öppna tjänsten du testar i incognito mode
+- Cookie-dialogen borde vara synlig
+- Öppna DevTools, öppna Application > Cookies > Din tjänsts url
+- Kontrollera att kakor som är frivilliga inte finns i listan över Cookies
+- Godkänn alla kakor
+- Kontrollera att de kakor som är frivilliga nu finns i listan
+
+##### Kontrollera "Tillåt endast nödvändiga kakor"
+
+- Öppna tjänsten du testar i incognito mode
+- Cookie-dialogen borde vara synlig
+- Öppna DevTools, öppna Application > Cookies > Din tjänsts url
+- Kontrollera att kakor som är frivilliga inte finns i listan över Cookies
+- Godkänn endast nödvändiga kakor
+- Frivilliga kakor ska inte dyka upp i listan med Cookies
+
+##### Kontrollera "Inställningar"
+
+- Öppna tjänsten du testar i incognito mode
+- Cookie-dialogen borde vara synlig
+- Klicka på knappen "Inställningar"
+- Kontrollera att texter, kategorier och sektioner stämmer
+- Öppna DevTools, öppna Application > Cookies > Din tjänsts url
+- Aktivera någon sektion med frivilliga kakor (tex. analytiska)
+- Klicka "Spara och godkänn"
+- Kontrollera att de frivilliga kakorna dyker upp i listan med Cookies
+- Klicka på footer-länken "Hantera kakor"
+- Inställningar bör dyka upp
+- Deaktivera analytiska kakor om dessa var aktiverade
+- Klicka "Spara och godkänn"
+- Ladda om sidan
+- Kakor som tillhör kategorin du precis stängde av bör försvinna från listan med Cookies
+
+
+## Ytterligare konfiguration
+
+I dialogen "Inställningar för kakor" finns det möjlighet att visa en lista på kakor som ingår i en viss kategori, i `language.translations.sv.preferencesModal.sections[].cookieTable`
+
+Observera att denna lista är endast till för att förtydliga och beskriva för användaren syftet med varje enskild kaka. Den är inte nödvändig för att dialogen ska fungera.
+
+Läs mer om hur du sätter ihop en sådan lista:
+https://cookieconsent.orestbida.com/reference/configuration-reference.html#translation-preferencesmodal-sections
+
+
+## ## Kontakt och ansvariga
 
 Krzysztof Bergendahl, systemutvecklare
