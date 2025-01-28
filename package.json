@@ -1,6 +1,6 @@
 {
   "name": "cookie-consent",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "description": "",
   "main": "dist/cookie-consent.umd.js",
   "module": "dist/cookie-consent.esm.js",
@@ -13,8 +13,12 @@
     "types",
     "src"
   ],
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kungbib/cookie-consent"
+  },
+  "author": "Kungliga biblioteket",
+  "license": "MIT",
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-terser": "^0.4.4",
