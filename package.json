@@ -1,6 +1,6 @@
 {
-  "name": "cookie-consent",
-  "version": "0.9.0",
+  "name": "@kungbib/cookie-consent",
+  "version": "0.9.1",
   "description": "",
   "main": "dist/cookie-consent.umd.js",
   "module": "dist/cookie-consent.esm.js",
