@@ -36,7 +36,7 @@ npm install @kungbib/cookie-consent
 
 // eller
 
-yarn install @kungbib/cookie-consent
+yarn add @kungbib/cookie-consent
 ```
 
 #### Importera i din applikation
