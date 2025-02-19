@@ -36,7 +36,7 @@ npm install @kungbib/cookie-consent
 
 // eller
 
-yarn install @kungbib/cookie-consent
+yarn add @kungbib/cookie-consent
 ```
 
 #### Importera i din applikation
@@ -49,7 +49,37 @@ import KbCookieConsent from '@kungbib/cookie-consent';
 
 ### Implementera med `<script>`-tag
 
-Kommer snart
+Den senaste versionen av scriptet finns på KBs CDN.
+
+Exempel:
+
+```html
+<!-- Add consent script -->
+<script src="https://cdn.kb.se/cookie-consent/cookie-consent-latest.umd.js"></script>
+<!-- Configure and activate -->
+<script>
+/* !!! Example only configuration !!! */
+const myConfig = {
+  categories: {
+    necessary: {
+      readOnly: true,
+      enabled: true
+    },
+    analytics: {
+      autoClear: {
+        cookies: [
+          {
+            name: /^_pk.*/
+          }
+        ]
+      }
+    }
+  }
+};
+/* Run cookie consent script */
+KbCookieConsent.run(myConfig);
+</script>
+```
 
 ## Steg 2: Definiera kategorier och sektioner
 
