@@ -204,8 +204,8 @@ Modifiera script-taggen på följande sätt:
   // ... 
 </script>
 ```
-
-Detta förhindrar att scriptet körs. När användaren godkänner kakor av kategorin `analytics`, ser CookieConsent till att scriptet aktiveras.
+`type="text/plain"` förhindrar att scriptet körs, `data-category="analytics"` kopplar scriptet med respektive kategori definierat i konfigurationen. 
+När användaren godkänner kakor av kategorin `analytics`, ser CookieConsent till att scriptet aktiveras.
  
 #### Alt 2: Använd callbacks
 
