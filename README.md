@@ -58,26 +58,28 @@ Exempel:
 <script src="https://cdn.kb.se/cookie-consent/cookie-consent-latest.umd.js"></script>
 <!-- Configure and activate -->
 <script>
-/* !!! Example only configuration !!! */
-const myConfig = {
-  categories: {
-    necessary: {
-      readOnly: true,
-      enabled: true
-    },
-    analytics: {
-      autoClear: {
-        cookies: [
-          {
-            name: /^_pk.*/
-          }
-        ]
+document.addEventListener("DOMContentLoaded", (event) => {
+  /* !!! Example only configuration !!! */
+  const myConfig = {
+    categories: {
+      necessary: {
+        readOnly: true,
+        enabled: true
+      },
+      analytics: {
+        autoClear: {
+          cookies: [
+            {
+              name: /^_pk.*/
+            }
+          ]
+        }
       }
     }
-  }
-};
-/* Run cookie consent script */
-KbCookieConsent.run(myConfig);
+  };
+  /* Run cookie consent script */
+  KbCookieConsent.run(myConfig);
+});
 </script>
 ```
 
