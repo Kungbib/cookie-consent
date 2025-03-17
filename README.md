@@ -320,6 +320,6 @@ Läs mer om hur du sätter ihop en sådan lista:
 https://cookieconsent.orestbida.com/reference/configuration-reference.html#translation-preferencesmodal-sections
 
 
-## ## Kontakt och ansvariga
+## Kontakt och ansvariga
 
 Krzysztof Bergendahl, systemutvecklare
