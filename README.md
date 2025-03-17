@@ -51,6 +51,8 @@ import KbCookieConsent from '@kungbib/cookie-consent';
 
 Den senaste versionen av scriptet finns på KBs CDN.
 
+Observera att `myConfig` innehåller endast exempelkonfiguration, du behöver anpassa det för just din tjänst.
+
 Exempel:
 
 ```html
