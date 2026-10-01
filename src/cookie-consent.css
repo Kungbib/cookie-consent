@@ -1,6 +1,10 @@
+@import 'https://cdn.kb.se/fonts/kb/KBDisplay.css';
+@import 'https://cdn.kb.se/fonts/kb/KBSans.css';
+@import 'https://cdn.kb.se/fonts/kb/KBSerif.css';
+
 #cc-main {
   /** Change font **/
-  --cc-font-family: inherit;
+  --cc-font-family: 'KB Sans', sans-serif;
 
   /** Background and text colors */
   --cc-bg: #65c6fd;
@@ -57,7 +61,7 @@
 #cc-main .pm__title {
   display: flex;
   align-items: center;
-  font-family: Sentinel, Roboto, "Open Sans", sans-serif;
+  font-family: 'KB Serif', serif;
   font-size: 1.4em;
 }
 
