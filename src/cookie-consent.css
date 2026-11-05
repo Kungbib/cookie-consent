@@ -63,6 +63,7 @@
   align-items: center;
   font-family: 'KB Serif', serif;
   font-size: 1.4em;
+  font-weight: 500;
 }
 
 #cc-main .cm__title::before,
